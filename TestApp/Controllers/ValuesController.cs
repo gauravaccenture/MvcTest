@@ -12,12 +12,32 @@ namespace TestApp.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            string[] retArray = null;
+            using (TestDbEntities tbe = new TestDbEntities())
+            {
+                retArray = (from q in tbe.Scores
+                            where q.Score1.HasValue
+                            select q.Score1.Value).AsEnumerable().Select(x => x.ToString()).ToArray<string>();
+            }
+            return retArray;
         }
 
         // GET api/values/5
         public string Get(int id)
         {
+
+            using (TestDbEntities tbe = new TestDbEntities())
+            {
+                Score score = new Score();
+                score.Score1 = id;
+                tbe.Scores.Add(score);
+                tbe.SaveChanges();
+            }
+
+
+
+
+
             var program = "class DynaCore{    static public void Main(string[] args)    {     Console.WriteLine(\"hello, this is good\");    }}";
 
             using (Microsoft.CSharp.CSharpCodeProvider foo = new Microsoft.CSharp.CSharpCodeProvider())
