@@ -25,40 +25,45 @@ namespace TestApp.Controllers
         // GET api/values/5
         public string Get(int id)
         {
-
-            using (TestDbEntities tbe = new TestDbEntities())
+            string retValue = "Success";
+            try
             {
-                Score score = new Score();
-                score.Score1 = id;
-                tbe.Scores.Add(score);
-                tbe.SaveChanges();
+                using (TestDbEntities tbe = new TestDbEntities())
+                {
+                    Score score = new Score();
+                    score.Score1 = id;
+                    tbe.Scores.Add(score);
+                    tbe.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                retValue = ex.Message;
             }
 
 
 
+            //var program = "class DynaCore{    static public void Main(string[] args)    {     Console.WriteLine(\"hello, this is good\");    }}";
+
+            //using (Microsoft.CSharp.CSharpCodeProvider foo = new Microsoft.CSharp.CSharpCodeProvider())
+            //{
+            //    var res = foo.CompileAssemblyFromSource(
+            //        new System.CodeDom.Compiler.CompilerParameters()
+            //        {
+            //            GenerateInMemory = true
+            //        },
+            //        program
+            //    );
+
+            //    //var type = res.CompiledAssembly.GetType("FooClass");
+
+            //    //var obj = Activator.CreateInstance(type);
+
+            //    //var output = type.GetMethod("Execute").Invoke(obj, new object[] { });
+            //}
 
 
-            var program = "class DynaCore{    static public void Main(string[] args)    {     Console.WriteLine(\"hello, this is good\");    }}";
-
-            using (Microsoft.CSharp.CSharpCodeProvider foo = new Microsoft.CSharp.CSharpCodeProvider())
-            {
-                var res = foo.CompileAssemblyFromSource(
-                    new System.CodeDom.Compiler.CompilerParameters()
-                    {
-                        GenerateInMemory = true
-                    },
-                    program
-                );
-
-                //var type = res.CompiledAssembly.GetType("FooClass");
-
-                //var obj = Activator.CreateInstance(type);
-
-                //var output = type.GetMethod("Execute").Invoke(obj, new object[] { });
-            }
-
-
-            return "value";
+            return retValue;
         }
 
         // POST api/values
