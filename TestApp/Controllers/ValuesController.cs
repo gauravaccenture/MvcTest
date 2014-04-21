@@ -39,6 +39,8 @@ namespace TestApp.Controllers
             catch (Exception ex)
             {
                 retValue = ex.Message;
+                if (ex.InnerException != null)
+                    retValue += Environment.NewLine + ex.InnerException.Message;
             }
 
 
